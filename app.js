@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
+const Campground = require("./models/campground");
 
 mongoose.connect(
   "mongodb+srv://michaeljswain:qmXlCRrWYNibQUwP@cluster0.jj9wseb.mongodb.net/YelpCamp?retryWrites=true&w=majority"
@@ -14,6 +15,8 @@ db.once("open", () => {
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.render("home");
