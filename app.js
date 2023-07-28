@@ -8,6 +8,7 @@ const methodOverride = require("method-override");
 const Campground = require("./models/campground");
 const ejsMate = require("ejs-mate");
 const Joi = require("joi");
+const { campgroundSchema } = require("./schemas.js");
 
 mongoose.connect(
   "mongodb+srv://michaeljswain:qmXlCRrWYNibQUwP@cluster0.jj9wseb.mongodb.net/YelpCamp?retryWrites=true&w=majority"
@@ -26,13 +27,6 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 
 const validateCampground = (req, res, next) => {
-  const campgroundSchema = Joi.object({
-    campground: Joi.object({
-      title: Joi.string().required(),
-      price: Joi.number().required().min(0),
-    }).required(),
-  });
-
   const { error } = campgroundSchema.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
